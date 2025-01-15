@@ -9,4 +9,14 @@ class Noticia extends Model
 {
     /** @use HasFactory<\Database\Factories\NoticiaFactory> */
     use HasFactory;
+
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
