@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('portada', [
-        'noticias' => Noticia::all(),
+        'noticias' => Noticia::orderBy('created_at', 'desc')->paginate(8),
     ]);
 })->name('home');
 
