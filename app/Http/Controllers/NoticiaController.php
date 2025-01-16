@@ -4,10 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreNoticiaRequest;
 use App\Http\Requests\UpdateNoticiaRequest;
+use App\Models\Categoria;
 use App\Models\Noticia;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Auth;
 
-class NoticiaController extends Controller
+class NoticiaController extends Controller implements HasMiddleware
 {
+    public static function middleware()
+    {
+        return [
+            new Middleware('auth', only: ['create', 'store']),
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -21,7 +33,9 @@ class NoticiaController extends Controller
      */
     public function create()
     {
-        //
+        return view('noticias.create', [
+            'categorias' => Categoria::orderBy('nombre')->get(),
+        ]);
     }
 
     /**
@@ -29,7 +43,9 @@ class NoticiaController extends Controller
      */
     public function store(StoreNoticiaRequest $request)
     {
-        //
+        $request->merge(['user_id' => Auth::id()]);
+        Noticia::create($request->input());
+        return redirect()->route('home');
     }
 
     /**
