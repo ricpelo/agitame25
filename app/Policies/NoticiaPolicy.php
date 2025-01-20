@@ -35,9 +35,11 @@ class NoticiaPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Noticia $noticia): bool
+    public function update(User $user, Noticia $noticia): Response
     {
-        return false;
+        return $user->name == 'admin' || $user->id === $noticia->user_id
+            ? Response::allow()
+            : Response::deny("El usuario no es el creador de la noticia.");
     }
 
     /**

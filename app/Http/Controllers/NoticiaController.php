@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class NoticiaController extends Controller implements HasMiddleware
 {
@@ -25,7 +26,7 @@ class NoticiaController extends Controller implements HasMiddleware
      */
     public function index()
     {
-        //
+        return redirect()->route('home');
     }
 
     /**
@@ -43,8 +44,11 @@ class NoticiaController extends Controller implements HasMiddleware
      */
     public function store(StoreNoticiaRequest $request)
     {
-        $request->merge(['user_id' => Auth::id()]);
-        Noticia::create($request->input());
+        // $request->merge(['user_id' => Auth::id()]);
+        // Noticia::create($request->input());
+        $noticia = new Noticia($request->input());
+        $noticia->user_id = Auth::id();
+        $noticia->save();
         return redirect()->route('home');
     }
 
@@ -61,7 +65,12 @@ class NoticiaController extends Controller implements HasMiddleware
      */
     public function edit(Noticia $noticia)
     {
-        //
+        Gate::authorize('update', $noticia);
+
+        return view('noticias.edit', [
+            'noticia' => $noticia,
+            'categorias' => Categoria::orderBy('nombre')->get(),
+        ]);
     }
 
     /**
@@ -69,7 +78,11 @@ class NoticiaController extends Controller implements HasMiddleware
      */
     public function update(UpdateNoticiaRequest $request, Noticia $noticia)
     {
-        //
+        Gate::authorize('update', $noticia);
+
+        $noticia->fill($request->input());
+        $noticia->save();
+        return redirect()->route('home');
     }
 
     /**
