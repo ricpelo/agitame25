@@ -26,7 +26,7 @@ class NoticiaController extends Controller implements HasMiddleware
      */
     public function index()
     {
-        //
+        return redirect()->route('home');
     }
 
     /**
@@ -65,9 +65,7 @@ class NoticiaController extends Controller implements HasMiddleware
      */
     public function edit(Noticia $noticia)
     {
-        // if (!Gate::allows('update-noticia', $noticia)) {
-        //     abort(403);
-        // }
+        Gate::authorize('update', $noticia);
 
         return view('noticias.edit', [
             'noticia' => $noticia,
@@ -80,6 +78,8 @@ class NoticiaController extends Controller implements HasMiddleware
      */
     public function update(UpdateNoticiaRequest $request, Noticia $noticia)
     {
+        Gate::authorize('update', $noticia);
+
         $noticia->fill($request->input());
         $noticia->save();
         return redirect()->route('home');

@@ -2,9 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Noticia;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Gate;
 
 class UpdateNoticiaRequest extends FormRequest
 {
@@ -13,8 +12,9 @@ class UpdateNoticiaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        $noticia = $this->route('noticia');
-        return Gate::allows('update-noticia', $noticia);
+        // $noticia = $this->route('noticia');
+        // return Gate::authorize('update', $noticia);
+        return true;
     }
 
     /**
