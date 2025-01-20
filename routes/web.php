@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\NoticiaController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Noticia;
 use Illuminate\Support\Facades\Route;
@@ -9,6 +10,8 @@ Route::get('/', function () {
         'noticias' => Noticia::orderBy('created_at', 'desc')->paginate(8),
     ]);
 })->name('home');
+
+Route::resource('noticias', NoticiaController::class);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
