@@ -19,6 +19,6 @@
         <p class="font-normal text-gray-700 dark:text-gray-400">{{ $noticia->descripcion }}</p>
     </div>
     <div>
-        <img src="{{ $noticia->imagen }}" />
+        <img src="{{ $noticia->getRutaImagen() }}" />
     </div>
 </div>
