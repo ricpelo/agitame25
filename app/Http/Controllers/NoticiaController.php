@@ -44,15 +44,17 @@ class NoticiaController extends Controller implements HasMiddleware
      */
     public function store(StoreNoticiaRequest $request)
     {
-        $archivo = $request->file('imagen');
         // $request->merge(['user_id' => Auth::id()]);
         // Noticia::create($request->input());
         $noticia = new Noticia($request->input());
         $noticia->user_id = Auth::id();
         $noticia->save();
         $nombre = $noticia->id . '.jpg';
-        $archivo->storeAs('imagenes', $nombre, 'public');
-        $noticia->imagen = asset("storage/imagenes/$nombre");
+        if ($request->hasFile('imagen')) {
+            $archivo = $request->file('imagen');
+            $archivo->storeAs('imagenes', $nombre, 'public');
+            $noticia->imagen = asset("storage/imagenes/$nombre");
+        }
         $noticia->save();
         return redirect()->route('home');
     }
