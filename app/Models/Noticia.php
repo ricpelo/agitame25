@@ -33,6 +33,6 @@ class Noticia extends Model
 
     public function getRutaImagen()
     {
-        return asset('storage/imagenes/' . $this->id . '.jpg');
+        return $this->imagen ?? asset('storage/imagenes/' . $this->id . '.jpg');
     }
 }
