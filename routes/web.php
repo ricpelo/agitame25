@@ -2,7 +2,10 @@
 
 use App\Http\Controllers\NoticiaController;
 use App\Http\Controllers\ProfileController;
+use App\Mail\SuperadoUmbral;
+use App\Mail\SuperadoUmbralMd;
 use App\Models\Noticia;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -24,3 +27,7 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::get('/correo', function () {
+    Mail::to('destinatario@pepito.com')->send(new SuperadoUmbralMd);
+});
