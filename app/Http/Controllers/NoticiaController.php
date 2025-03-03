@@ -44,6 +44,8 @@ class NoticiaController extends Controller implements HasMiddleware
      */
     public function store(StoreNoticiaRequest $request)
     {
+        $request->validate();
+
         // $request->merge(['user_id' => Auth::id()]);
         // Noticia::create($request->input());
         $noticia = new Noticia($request->input());
@@ -85,7 +87,7 @@ class NoticiaController extends Controller implements HasMiddleware
      */
     public function update(UpdateNoticiaRequest $request, Noticia $noticia)
     {
-        Gate::authorize('update', $noticia);
+        // Gate::authorize('update', $noticia);
 
         $noticia->fill($request->input());
         $noticia->save();
