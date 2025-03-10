@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\NoticiaController;
 use App\Http\Controllers\ProfileController;
+use App\Livewire\Reservas;
 use App\Mail\SuperadoUmbral;
 use App\Mail\SuperadoUmbralMd;
 use App\Models\Noticia;
@@ -31,3 +32,5 @@ require __DIR__.'/auth.php';
 Route::get('/correo', function () {
     Mail::to('destinatario@pepito.com')->send(new SuperadoUmbralMd);
 });
+
+Route::get('/reservas', Reservas::class)->middleware('auth');
