@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MuebleController;
 use App\Http\Controllers\NoticiaController;
 use App\Http\Controllers\ProfileController;
 use App\Livewire\Reservas;
@@ -34,3 +35,5 @@ Route::get('/correo', function () {
 });
 
 Route::get('/reservas', Reservas::class)->middleware('auth');
+
+Route::resource('muebles', MuebleController::class);
